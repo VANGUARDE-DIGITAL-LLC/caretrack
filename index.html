@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareTrack - Senior Mobility & Safety Monitor</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="logo-container">
+            <span class="logo-icon" aria-hidden="true">🛡️</span>
+            <h1>CareTrack</h1>
+        </div>
+        <button id="profile-btn" class="icon-btn" aria-label="Manage Profile" style="display: none;">👤</button>
+    </header>
+
+    <main class="main-container">
+        <!-- Onboarding / Registration Form View -->
+        <section id="onboarding-section" class="card">
+            <h2>Caregiver Setup</h2>
+            <p class="subtitle">Enter your family member's phone number to initialize real-time location monitoring and safety alerts.</p>
+            
+            <form id="onboarding-form">
+                <div class="form-group">
+                    <label for="parent-name">Parent / Loved One's Name</label>
+                    <input type="text" id="parent-name" placeholder="e.g., Arthur Morgan" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="parent-phone">Parent's Mobile Phone Number</label>
+                    <input type="tel" id="parent-phone" placeholder="(555) 000-0000" pattern="[0-9\-\+\s\(\)]+" required>
+                    <small class="help-text">Used to link hardware telemetry and send automatic status pings.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="caregiver-phone">Your Contact Number (Alert Recipient)</label>
+                    <input type="tel" id="caregiver-phone" placeholder="(555) 999-9999" required>
+                </div>
+
+                <button type="submit" class="primary-btn">Initialize Live Monitoring</button>
+            </form>
+        </section>
+
+        <!-- Live Dashboard View (Hidden by default) -->
+        <section id="dashboard-section" class="dashboard-grid hidden">
+            
+            <!-- Status Overview Card -->
+            <article class="card status-card">
+                <div class="user-profile-header">
+                    <div>
+                        <h2 id="display-parent-name">Arthur Morgan</h2>
+                        <span id="display-phone-number" class="sub-text">+1 (555) 000-0000</span>
+                    </div>
+                    <span id="status-badge" class="badge badge-active">Active</span>
+                </div>
+
+                <div class="telemetry-grid">
+                    <div class="telemetry-item">
+                        <span class="label">Radio / Cellular Connection</span>
+                        <span id="radio-status" class="value status-ok">Connected (4G)</span>
+                    </div>
+                    <div class="telemetry-item">
+                        <span class="label">Battery Status</span>
+                        <span id="battery-status" class="value">84%</span>
+                    </div>
+                    <div class="telemetry-item">
+                        <span class="label">Movement Detection</span>
+                        <span id="movement-status" class="value">Walking outdoors</span>
+                    </div>
+                    <div class="telemetry-item">
+                        <span class="label">Last Location Ping</span>
+                        <span id="last-ping-time" class="value">Just now</span>
+                    </div>
+                </div>
+
+                <!-- Radio Warning Banner (Dynamic) -->
+                <div id="radio-alert-banner" class="alert-banner hidden" role="alert">
+                    <span class="alert-icon">⚠️</span>
+                    <div>
+                        <strong>Connection Signal Low/Off!</strong>
+                        <p>The device radio appears to be turned off or in airplane mode. Showing last known satellite position.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Map View Card -->
+            <article class="card map-card">
+                <div class="card-header">
+                    <h3>Live Geolocation Telemetry</h3>
+                    <button id="recenter-btn" class="secondary-btn btn-sm">Recenter Map</button>
+                </div>
+                <div id="map-container" aria-label="Interactive Map displaying parent location"></div>
+                <div class="location-details">
+                    <p id="current-address"><strong>Current Estimated Area:</strong> 124 Oak Street (Near Neighborhood Park)</p>
+                </div>
+            </article>
+
+            <!-- Quick Action & Support Controls -->
+            <article class="card action-card">
+                <h3>Emergency & Care Actions</h3>
+                <div class="action-buttons">
+                    <button id="call-parent-btn" class="secondary-btn action-btn">
+                        <span class="btn-icon">📞</span> Call Parent
+                    </button>
+                    <button id="dispatch-help-btn" class="danger-btn action-btn">
+                        <span class="btn-icon">🚨</span> Trigger Emergency Dispatch
+                    </button>
+                </div>
+            </article>
+
+        </section>
+    </main>
+
+    <!-- Leaflet JS for Maps -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="app.js"></script>
+</body>
+</html>
